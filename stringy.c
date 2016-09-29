@@ -39,7 +39,7 @@ char* stringcat(char *dest, char *src) {
 
 char* stringncat(char *dest, char *src, int n) {
   int i;
-  int dest_len = strlen(dest);
+  int dest_len = stringlen(dest);
 
   for (i=0; (i<n) && (src[i] != '\0'); i++) { dest[dest_len+i] = src[i]; }
   dest[dest_len+i] = '\0';
@@ -49,9 +49,9 @@ char* stringncat(char *dest, char *src, int n) {
 //N to self: fix to not take into account length unless same
 int stringcmp(char *s1, char *s2) {
   int i;
-  if (stringlen(s1) > stringlen(s2)) { return 1; }
-  else if (stringlen(s1) < stringlen(s2)) { return -1; }
-  for (i=0; i<strlen(s1); i++) {
+  for (i=0; i<stringlen(s1); i++) {
+    if ((i>stringlen(s1)) && (!(i>stringlen(s2)))) { return s2; }
+    if ((i>stringlen(s2)) && (!(i>stringlen(s1)))) { return s1; }
     if (s1[i] > s2[i]) { return 1; }
     if (s1[i] < s2[i]) { return -1; }
   }
@@ -60,7 +60,7 @@ int stringcmp(char *s1, char *s2) {
 
 char* stringchr(char *s, char c) {
   int i;
-  for (i=0; i<strlen(s); i++) {
+  for (i=0; i<stringlen(s); i++) {
     if (s[i] == c) { return &(s[i]); }
   }
   return NULL;
@@ -81,12 +81,12 @@ int main() {
   stringncpy(s2, s1, 1);
   printf("Testing stringncpy:\nstringncpy(s2, s1, 1): s2=%s, length=%d\n\n", s2, stringlen(s2));
 
-
-  stringncat(s1, "GeeksHa", 3);
-  printf("Testing stringncat:\nstringncat(s1,\"Geeks\"): s1=%s, length=%d\n\n", s1, stringlen(s1));
+  stringncat(s2, "GeeksHa", 5);
+  printf("Testing stringncat:\nstringncat(s2,\"GeeksHa\", 5): s2=%s, length=%d\n\n", s2, stringlen(s2));
   
-
   printf("Testing stringcmp:\ncompare ab to abc: %d\ncompare abc to ab: %d\ncompare abc to abc: %d\n\n", stringcmp("ab","abc"), stringcmp("abc","ab"), stringcmp("abc","abc"));
     
   printf("Testing strchr:\nstrchr(\"Sam\", \'a\'): [%c]\nstrchr(\"Lindsay\", \'e\': [%c]\n", *(stringchr("Sam",'a')), stringchr("Lindsay", 'e'));
+
+  return 0;
 }
