@@ -49,7 +49,7 @@ char* stringncat(char *dest, char *src, int n) {
 //N to self: fix to not take into account length unless same
 int stringcmp(char *s1, char *s2) {
   int i;
-  for (i=0; i<stringlen(s1); i++) {
+  for (i=0; ((i<stringlen(s1)) || (i<stringlen(s2))); i++) {
     if ((i>stringlen(s1)) && (!(i>stringlen(s2)))) { return s2; }
     if ((i>stringlen(s2)) && (!(i>stringlen(s1)))) { return s1; }
     if (s1[i] > s2[i]) { return 1; }
@@ -84,7 +84,7 @@ int main() {
   stringncat(s2, "GeeksHa", 5);
   printf("Testing stringncat:\nstringncat(s2,\"GeeksHa\", 5): s2=%s, length=%d\n\n", s2, stringlen(s2));
   
-  printf("Testing stringcmp:\ncompare ab to abc: %d\ncompare abc to ab: %d\ncompare abc to abc: %d\n\n", stringcmp("ab","abc"), stringcmp("abc","ab"), stringcmp("abc","abc"));
+  printf("Testing stringcmp:\ncompare Weir to Weirs: %d\ncompare Weirs to Weir: %d\ncompare Weirs to Weirs: %d\n\n", stringcmp("Weir","Weirs"), stringcmp("Weirs","Weir"), stringcmp("Weirs","Weirs"));
     
   printf("Testing strchr:\nstrchr(\"Sam\", \'a\'): [%c]\nstrchr(\"Lindsay\", \'e\': [%c]\n", *(stringchr("Sam",'a')), stringchr("Lindsay", 'e'));
 
